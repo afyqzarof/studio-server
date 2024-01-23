@@ -1,0 +1,16 @@
+{
+  "name": "studio-server",
+  "version": "1.0.0",
+  "description": "studio backend and data base",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node --watch main.js"
+  },
+  "author": "afyq zarof",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "knex": "^3.1.0",
+    "mysql2": "^3.7.1"
+  }
+}

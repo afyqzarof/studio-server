@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node --watch main.js",
     "migrate": "knex migrate:latest",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "migrate:down": "knex migrate:down",
+    "migrate:rollback": "knex migrate:rollback"
   },
   "author": "afyq zarof",
   "license": "ISC",

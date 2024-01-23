@@ -1,4 +1,3 @@
-// Import dotenv to process environment variables from `.env` file.
 require("dotenv").config();
 
 module.exports = {

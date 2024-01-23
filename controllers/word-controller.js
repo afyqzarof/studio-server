@@ -1,6 +1,7 @@
 require("dotenv").config();
 const axios = require("axios");
 const dictUrl = process.env.DICT_URL;
+const rhymeUrl = process.env.RHYME_URL;
 
 const getDef = async (req, res) => {
   try {
@@ -47,8 +48,23 @@ const getAntonym = async (req, res) => {
   }
 };
 
+const getRhyme = async (req, res) => {
+  try {
+    const { word } = req.params;
+    const { data } = await axios.get(rhymeUrl + word);
+    const commonRhymes = data
+      .sort((a, b) => b.freq - a.freq)
+      .map((wordObj) => wordObj.word)
+      .slice(0, 16);
+    res.json(commonRhymes);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
 module.exports = {
   getDef,
   getSynonym,
   getAntonym,
+  getRhyme,
 };

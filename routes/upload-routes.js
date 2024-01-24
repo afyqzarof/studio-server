@@ -6,16 +6,14 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
 const upload = multer({ storage: storage });
-// const upload = multer({ dest: "uploads/" });
 
 router.post("/", upload.single("file"), (req, res) => {
-  res.send("upload successful");
+  res.send({ filename: req.file.filename });
 });
 
 module.exports = router;

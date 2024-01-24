@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT;
+const baseUrl = process.env.BASE_URL;
 const cors = require("cors");
 
 const userRoutes = require("./routes/user-routes");
@@ -15,5 +16,5 @@ app.use("/api/boards", boardRoutes);
 app.use("/api/word", wordRoutes);
 
 app.listen(port, () => {
-  console.log(`listening on  http://localhost:${port}`);
+  console.log(`listening on  ${baseUrl + port}`);
 });

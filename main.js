@@ -12,7 +12,7 @@ const uploadRoutes = require("./routes/upload-routes.js");
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/uploads", express.static("uploads"));
+app.use("/api/upload", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/api/boards", boardRoutes);
 app.use("/api/word", wordRoutes);

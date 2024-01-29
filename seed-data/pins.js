@@ -1,42 +1,63 @@
 module.exports = [
   {
     board_id: 1,
-    width: 373,
-    height: 482,
+    width: 400,
+    height: 277,
     id: "xFLA-XMirt",
     type: "YoutubeVidNode",
     data: {
       youtube_id: "sDENI1Zx7Wc",
     },
-
-    x_coord: 612,
-    y_coord: -19,
+    x_coord: 600,
+    y_coord: 200,
   },
   {
     board_id: 1,
-    width: 338,
-    height: 85,
+    width: 218,
+    height: 70,
     id: "mB_6kTKt3Y",
     type: "TextNode",
     data: {
       text: "this is a text box",
     },
-
     x_coord: 250,
     y_coord: 100,
   },
   {
     board_id: 1,
-    width: 241,
-    height: 525,
+    width: 200,
+    height: 230,
     id: "WVQoDv6ewX",
     type: "ColorSelectorNode",
     data: {
       color: "#4c4cff",
     },
-
     x_coord: 0,
     y_coord: 0,
+  },
+  {
+    board_id: 1,
+    width: 200,
+    height: 230,
+    id: "FsdAEOf6oja",
+    type: "ImageNode",
+    data: {
+      file: "test.png",
+    },
+    x_coord: 100,
+    y_coord: 400,
+  },
+  {
+    board_id: 1,
+    width: 500,
+    height: 182,
+    id: "bDepAWb6le",
+    type: "SpotifyNode",
+    data: {
+      track_id: "5ug0eU9nS6gRqJ8Xqgsx8x",
+    },
+    x_coord: 400,
+    y_coord: -200,
   },
 
   {
@@ -63,19 +84,19 @@ module.exports = [
       youtube_id: "dHUq9xJcaZs",
     },
   },
-  // {
-  //   board_id: 2,
-  //   width: 338,
-  //   height: 570,
-  //   id: "4KZozsrb40",
-  //   type: "TextNode",
-  //   data: {
-  //     text: "your oversize clothes\nthe smile that you show\nme when\nu laugh\n\nyou obsession with food\nif i only could \nshare it \nwith you\n\ngoing walks\nyou giving your talks\non why and how\n\nand believing its true\ndon’t know how i found you\n(in this life)",
-  //   },
+  {
+    board_id: 2,
+    width: 338,
+    height: 700,
+    id: "4KZozsrb40",
+    type: "TextNode",
+    data: {
+      text: "your oversize clothes\nthe smile that you show\nme when\nu laugh\n\nyou obsession with food\nif i only could \nshare it \nwith you\n\ngoing walks\nyou giving your talks\non why and how\n\nand believing its true\ndon’t know how i found you\n(in this life)",
+    },
 
-  //   x_coord: 412,
-  //   y_coord: -367,
-  // },
+    x_coord: 412,
+    y_coord: -367,
+  },
 
   {
     board_id: 2,
@@ -176,7 +197,7 @@ module.exports = [
       file: "1706445392414.jpeg",
     },
     x_coord: 192.80160310677888,
-    y_coord: 201.48413378176298,
+    y_coord: 201,
   },
   {
     board_id: 3,

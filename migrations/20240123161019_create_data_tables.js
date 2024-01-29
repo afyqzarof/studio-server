@@ -35,7 +35,7 @@ exports.up = function (knex) {
       table.string("type").notNullable();
       table.integer("x_coord").notNullable();
       table.integer("y_coord").notNullable();
-      table.string("data");
+      table.string("data", 1000);
       table
         .integer("board_id")
         .unsigned()

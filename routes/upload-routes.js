@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const sharp = require("sharp");
 const path = require("path");
-const { v4: uuid } = require("uuid");
 const fs = require("fs");
 const multer = require("multer");
 const storage = multer.diskStorage({

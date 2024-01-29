@@ -13,20 +13,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// const upload = multer({ storage: storage });
-
-// router.post("/", upload.single("file"), (req, res) => {
-//   res.send({ filename: req.file.filename });
-// });
-
-// const storage = multer.diskStorage({
-//   destination: (req, file, done) => {
-//     done(null, UPLOAD_PATH);
-//   },
-//   filename: (req, file, done) => {
-//     done(null, uuid() + "___" + file.originalname);
-//   },
-// });
 const limits = {
   fileSize: 5 * 1024 * 1024,
 };
@@ -56,20 +42,16 @@ router.post("/", (req, res) => {
           .status(400)
           .json({ success: false, message: "file not supplied" });
       }
-      const newFilePath = path.join(
-        UPLOAD_PATH,
-        Date.now() + path.extname(file.originalname)
-      );
+      const newName = Date.now() + path.extname(file.originalname);
+      const newFilePath = path.join(UPLOAD_PATH, newName);
       // save newFilePath in your db as image path
       await sharp(file.path).resize().jpeg({ quality: 50 }).toFile(newFilePath);
       fs.unlinkSync(file.path);
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "image uploaded",
-          filename: req.file.filename,
-        });
+      return res.status(200).json({
+        success: true,
+        message: "image uploaded",
+        filename: newName,
+      });
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }

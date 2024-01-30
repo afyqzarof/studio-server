@@ -160,8 +160,8 @@ module.exports = [
     data: {
       color: "#30fde2",
     },
-    x_coord: 1737.2404060913705,
-    y_coord: 180.64284263959394,
+    x_coord: 1737,
+    y_coord: 180,
   },
   {
     board_id: "edMDU5I-YtRe0Pu",
@@ -172,8 +172,8 @@ module.exports = [
     data: {
       color: "#e230fd",
     },
-    x_coord: 1543.9474111675129,
-    y_coord: 172.0631472081219,
+    x_coord: 1543,
+    y_coord: 172,
   },
   {
     board_id: "edMDU5I-YtRe0Pu",
@@ -184,8 +184,8 @@ module.exports = [
     data: {
       color: "#30fd7b",
     },
-    x_coord: 1341.9390862944163,
-    y_coord: 172.9409137055838,
+    x_coord: 1341,
+    y_coord: 172,
   },
   {
     board_id: "edMDU5I-YtRe0Pu",
@@ -196,7 +196,7 @@ module.exports = [
     data: {
       file: "1706445392414.jpeg",
     },
-    x_coord: 192.80160310677888,
+    x_coord: 192,
     y_coord: 201,
   },
   {
@@ -208,7 +208,80 @@ module.exports = [
     data: {
       color: "#fde230",
     },
-    x_coord: 859.1025380710659,
-    y_coord: 172.6946192893401,
+    x_coord: 859,
+    y_coord: 172,
+  },
+
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 352,
+    height: 277,
+    id: "F0fqQpw7vB",
+    type: "YoutubeVidNode",
+    data: {
+      youtube_id: "3R_IMeoL6V0",
+    },
+    x_coord: 753,
+    y_coord: 806,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 192,
+    height: 235,
+    id: "LTgPjqNfGo",
+    type: "ColorSelectorNode",
+    data: {
+      color: "#3bbbc4",
+    },
+    x_coord: 311,
+    y_coord: 405,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 400,
+    height: 600,
+    id: "H7-O5Mn8aR",
+    type: "PinterestNode",
+    data: {
+      id: "735775657897082432",
+    },
+    x_coord: -450,
+    y_coord: 126,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 192,
+    height: 235,
+    id: "AngUq-IdgI",
+    type: "ColorSelectorNode",
+    data: {
+      color: "#050706",
+    },
+    x_coord: 302,
+    y_coord: 152,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 192,
+    height: 235,
+    id: "_QZ_gZVRwI",
+    type: "ColorSelectorNode",
+    data: {
+      color: "#c5443c",
+    },
+    x_coord: 521,
+    y_coord: 158,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 400,
+    height: 200,
+    id: "Ce_a9Fib4h",
+    type: "TextNode",
+    data: {
+      text: "uni work \nposter design",
+    },
+    x_coord: 436,
+    y_coord: 68,
   },
 ];

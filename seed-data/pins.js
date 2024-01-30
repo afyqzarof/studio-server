@@ -211,4 +211,77 @@ module.exports = [
     x_coord: 859.1025380710659,
     y_coord: 172.6946192893401,
   },
+
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 352,
+    height: 277,
+    id: "F0fqQpw7vB",
+    type: "YoutubeVidNode",
+    data: {
+      youtube_id: "3R_IMeoL6V0",
+    },
+    x_coord: 553.1819184123485,
+    y_coord: 406.6019845644983,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 192,
+    height: 235,
+    id: "LTgPjqNfGo",
+    type: "ColorSelectorNode",
+    data: {
+      color: "#3bbbc4",
+    },
+    x_coord: 311.7949283351709,
+    y_coord: 405.9151047409041,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 400,
+    height: 600,
+    id: "H7-O5Mn8aR",
+    type: "PinterestNode",
+    data: {
+      id: "735775657897082432",
+    },
+    x_coord: -250,
+    y_coord: 126.69900771775079,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 192,
+    height: 235,
+    id: "AngUq-IdgI",
+    type: "ColorSelectorNode",
+    data: {
+      color: "#050706",
+    },
+    x_coord: 302.289966923925,
+    y_coord: 152.3660418963616,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 192,
+    height: 235,
+    id: "_QZ_gZVRwI",
+    type: "ColorSelectorNode",
+    data: {
+      color: "#c5443c",
+    },
+    x_coord: 521.7938257993385,
+    y_coord: 158.5887541345094,
+  },
+  {
+    board_id: "L_XEx-ZHeZkPSVb",
+    width: 400,
+    height: 200,
+    id: "Ce_a9Fib4h",
+    type: "TextNode",
+    data: {
+      text: "uni work \nposter design",
+    },
+    x_coord: 436.2590254345033,
+    y_coord: 68.58259859947148,
+  },
 ];

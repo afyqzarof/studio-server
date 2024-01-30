@@ -1,18 +1,18 @@
 module.exports = [
   {
-    id: 1,
+    id: "TMFld0860EctVn2",
     title: "music vid inspiration",
     is_public: true,
     user_id: 1,
   },
   {
-    id: 2,
+    id: "dcU4VO1Ik0Oa6cX",
     title: "test board",
     is_public: true,
     user_id: 1,
   },
   {
-    id: 3,
+    id: "edMDU5I-YtRe0Pu",
     title: "brand identity",
     is_public: false,
     user_id: 1,

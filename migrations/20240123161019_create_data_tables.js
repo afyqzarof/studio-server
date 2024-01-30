@@ -16,7 +16,7 @@ exports.up = function (knex) {
         .defaultTo(knex.raw("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"));
     })
     .createTable("board", (table) => {
-      table.increments("id").primary();
+      table.string("id").primary().notNullable();
       table.string("title").notNullable();
       table.boolean("is_public").notNullable().defaultTo(true);
       table
@@ -37,8 +37,7 @@ exports.up = function (knex) {
       table.integer("y_coord").notNullable();
       table.string("data", 1000);
       table
-        .integer("board_id")
-        .unsigned()
+        .string("board_id")
         .references("board.id")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");

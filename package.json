@@ -4,13 +4,24 @@
   "description": "studio backend and data base",
   "main": "main.js",
   "scripts": {
-    "dev": "node --watch main.js"
+    "dev": "node --watch main.js",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "migrate:down": "knex migrate:down",
+    "migrate:rollback": "knex migrate:rollback"
   },
   "author": "afyq zarof",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.5",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.2",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
-    "mysql2": "^3.7.1"
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.7.1",
+    "sharp": "^0.33.2"
   }
 }

@@ -160,8 +160,8 @@ module.exports = [
     data: {
       color: "#30fde2",
     },
-    x_coord: 1737.2404060913705,
-    y_coord: 180.64284263959394,
+    x_coord: 1737,
+    y_coord: 180,
   },
   {
     board_id: "edMDU5I-YtRe0Pu",
@@ -172,8 +172,8 @@ module.exports = [
     data: {
       color: "#e230fd",
     },
-    x_coord: 1543.9474111675129,
-    y_coord: 172.0631472081219,
+    x_coord: 1543,
+    y_coord: 172,
   },
   {
     board_id: "edMDU5I-YtRe0Pu",
@@ -184,8 +184,8 @@ module.exports = [
     data: {
       color: "#30fd7b",
     },
-    x_coord: 1341.9390862944163,
-    y_coord: 172.9409137055838,
+    x_coord: 1341,
+    y_coord: 172,
   },
   {
     board_id: "edMDU5I-YtRe0Pu",
@@ -196,7 +196,7 @@ module.exports = [
     data: {
       file: "1706445392414.jpeg",
     },
-    x_coord: 192.80160310677888,
+    x_coord: 192,
     y_coord: 201,
   },
   {
@@ -208,8 +208,8 @@ module.exports = [
     data: {
       color: "#fde230",
     },
-    x_coord: 859.1025380710659,
-    y_coord: 172.6946192893401,
+    x_coord: 859,
+    y_coord: 172,
   },
 
   {
@@ -221,8 +221,8 @@ module.exports = [
     data: {
       youtube_id: "3R_IMeoL6V0",
     },
-    x_coord: 553.1819184123485,
-    y_coord: 406.6019845644983,
+    x_coord: 753,
+    y_coord: 806,
   },
   {
     board_id: "L_XEx-ZHeZkPSVb",
@@ -233,8 +233,8 @@ module.exports = [
     data: {
       color: "#3bbbc4",
     },
-    x_coord: 311.7949283351709,
-    y_coord: 405.9151047409041,
+    x_coord: 311,
+    y_coord: 405,
   },
   {
     board_id: "L_XEx-ZHeZkPSVb",
@@ -245,8 +245,8 @@ module.exports = [
     data: {
       id: "735775657897082432",
     },
-    x_coord: -250,
-    y_coord: 126.69900771775079,
+    x_coord: -450,
+    y_coord: 126,
   },
   {
     board_id: "L_XEx-ZHeZkPSVb",
@@ -257,8 +257,8 @@ module.exports = [
     data: {
       color: "#050706",
     },
-    x_coord: 302.289966923925,
-    y_coord: 152.3660418963616,
+    x_coord: 302,
+    y_coord: 152,
   },
   {
     board_id: "L_XEx-ZHeZkPSVb",
@@ -269,8 +269,8 @@ module.exports = [
     data: {
       color: "#c5443c",
     },
-    x_coord: 521.7938257993385,
-    y_coord: 158.5887541345094,
+    x_coord: 521,
+    y_coord: 158,
   },
   {
     board_id: "L_XEx-ZHeZkPSVb",
@@ -281,7 +281,7 @@ module.exports = [
     data: {
       text: "uni work \nposter design",
     },
-    x_coord: 436.2590254345033,
-    y_coord: 68.58259859947148,
+    x_coord: 436,
+    y_coord: 68,
   },
 ];

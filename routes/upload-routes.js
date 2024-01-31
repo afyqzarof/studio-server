@@ -5,7 +5,7 @@ const fs = require("fs");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "public/uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -22,7 +22,7 @@ const fileFilter = (req, file, done) => {
     done(new Error("file type not supported"), false);
   }
 };
-const UPLOAD_PATH = path.join(__dirname, "../uploads");
+const UPLOAD_PATH = path.join(__dirname, "../public/uploads");
 const upload = multer({
   storage,
   limits,

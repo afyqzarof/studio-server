@@ -12,12 +12,12 @@ const uploadRoutes = require("./routes/upload-routes.js");
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/upload", express.static("public/uploads"));
-app.use("/api/thumbnails", express.static("public/thumbnails"));
-app.use("/api/users", userRoutes);
-app.use("/api/boards", boardRoutes);
-app.use("/api/word", wordRoutes);
-app.use("/api/upload", uploadRoutes);
+app.use("/upload", express.static("public/uploads"));
+app.use("/thumbnails", express.static("public/thumbnails"));
+app.use("/users", userRoutes);
+app.use("/boards", boardRoutes);
+app.use("/word", wordRoutes);
+app.use("/upload", uploadRoutes);
 
 app.listen(port, () => {
   console.log(`listening on  ${baseUrl + port}`);

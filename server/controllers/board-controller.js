@@ -1,4 +1,4 @@
-const knex = require("knex")(require("../knexfile"));
+const knex = require("knex")(require("../../db/knexfile"));
 const { nanoid } = require("nanoid");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");

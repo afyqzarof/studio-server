@@ -5,10 +5,10 @@
   "main": "main.js",
   "scripts": {
     "dev": "node --watch main.js",
-    "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
-    "rollback": "knex migrate:rollback",
-    "migrate:down": "knex migrate:down"
+    "migrate": "cd db && knex migrate:latest",
+    "seed": "cd db && knex seed:run",
+    "rollback": "cd db && knex migrate:rollback",
+    "migrate:down": "cd db && knex migrate:down"
   },
   "author": "afyq zarof",
   "license": "ISC",

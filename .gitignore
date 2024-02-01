@@ -1,8 +1,6 @@
 # Logs
 logs
 *.log
-public/uploads/*
-!public/uploads/.gitkeep 
 
 # Runtime data
 pids

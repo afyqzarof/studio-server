@@ -5,7 +5,7 @@ const multer = require("multer");
 const { nanoid } = require("nanoid");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads/");
+    cb(null, "server/public/uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));

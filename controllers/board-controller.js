@@ -49,10 +49,27 @@ const newBoard = async (req, res) => {
       id: nanoid(15),
       user_id: userId,
     };
-    console.log(newBoard);
 
     await knex("board").insert(newBoard);
     res.json(newBoard);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+const saveBoard = async (req, res) => {
+  const { title, boardId } = req.body;
+
+  try {
+    const boardsUpdated = await knex("board")
+      .where({ id: boardId })
+      .update("title", title);
+
+    if (!boardsUpdated) {
+      return res.status(404).send("Could not find board to update");
+    }
+
+    const updatedBoard = await knex("board").where({ id: boardId }).first();
+    res.json(updatedBoard);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -63,4 +80,5 @@ module.exports = {
   getBoardDetails,
   getPublicBoards,
   newBoard,
+  saveBoard,
 };

@@ -24,7 +24,9 @@ const getPublicBoards = async (req, res) => {
       "board.title",
       "board.thumbnail",
       "board.id",
-      "board.created_at"
+      "board.created_at",
+      "board.description",
+      "board.category"
     )
     .where({ is_public: true });
   res.json(publicBoards);

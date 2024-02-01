@@ -25,7 +25,9 @@ exports.up = function (knex) {
         .references("user.id")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.string("thumbnail");
+      table.string("thumbnail").defaultTo("default.png");
+      table.string("description");
+      table.string("category");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table
         .timestamp("updated_at")
@@ -52,5 +54,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("pins").dropTable("board").dropTable("user");
+  return knex.schema.dropTable("pin").dropTable("board").dropTable("user");
 };

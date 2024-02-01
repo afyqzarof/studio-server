@@ -6,6 +6,8 @@ module.exports = [
     user_id: 1,
     created_at: "2023-06-01",
     thumbnail: "board-img-1.png",
+    description: "vibes is something that can't be explained with science",
+    category: "music",
   },
   {
     id: "dcU4VO1Ik0Oa6cX",

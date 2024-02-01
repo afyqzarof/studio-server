@@ -17,7 +17,7 @@ exports.up = function (knex) {
     })
     .createTable("board", (table) => {
       table.string("id").primary().notNullable();
-      table.string("title").notNullable();
+      table.string("title");
       table.boolean("is_public").notNullable().defaultTo(true);
       table
         .integer("user_id")

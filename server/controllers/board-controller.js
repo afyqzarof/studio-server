@@ -3,6 +3,7 @@ const { nanoid } = require("nanoid");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
+const getImageIds = require("../utils/get-image-pin");
 
 const getPins = async (req, res) => {
   const { boardId } = req.params;
@@ -92,15 +93,6 @@ const saveBoard = async (req, res) => {
   }
 };
 
-const getImageIds = (pins, forOld) => {
-  const imgPins = pins.filter((pin) => pin.type === "ImageNode");
-  const imgPinsId = imgPins.map((pin) => {
-    const data = forOld ? JSON.parse(pin.data) : pin.data;
-    return { id: pin.id, filename: data.file };
-  });
-  return imgPinsId;
-};
-
 const savePins = async (req, res) => {
   const { boardId } = req.params;
   const { newPins } = req.body;
@@ -118,7 +110,7 @@ const savePins = async (req, res) => {
         fs.unlinkSync(
           path.resolve(__dirname, `../public/uploads/${imgObj.filename}`)
         );
-        console.log("deleted :" + imgObj.filename);
+        // console.log("deleted: " + imgObj.filename);
       } catch (error) {
         console.log(error);
       }

@@ -1,6 +1,8 @@
 const knex = require("knex")(require("../knexfile"));
 const { nanoid } = require("nanoid");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
 
 const getPins = async (req, res) => {
   const { boardId } = req.params;
@@ -57,12 +59,28 @@ const newBoard = async (req, res) => {
   }
 };
 const saveBoard = async (req, res) => {
-  const { title, boardId } = req.body;
+  const { title, boardId, filename } = req.body;
+
+  if (!title || !boardId || !filename) {
+    return res.status(400).send("Please have all fields");
+  }
+  const { thumbnail } = await knex("board").where({ id: boardId }).first();
+  if (thumbnail !== "default.png") {
+    try {
+      fs.unlinkSync(
+        path.resolve(__dirname, `../public/thumbnails/${thumbnail}`)
+      );
+      console.log("done");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   try {
     const boardsUpdated = await knex("board")
       .where({ id: boardId })
-      .update("title", title);
+      .update("title", title)
+      .update("thumbnail", filename);
 
     if (!boardsUpdated) {
       return res.status(404).send("Could not find board to update");

@@ -70,7 +70,6 @@ const saveBoard = async (req, res) => {
       fs.unlinkSync(
         path.resolve(__dirname, `../public/thumbnails/${thumbnail}`)
       );
-      console.log("done");
     } catch (error) {
       console.log(error);
     }
@@ -93,10 +92,51 @@ const saveBoard = async (req, res) => {
   }
 };
 
+const getImageIds = (pins, forOld) => {
+  const imgPins = pins.filter((pin) => pin.type === "ImageNode");
+  const imgPinsId = imgPins.map((pin) => {
+    const data = forOld ? JSON.parse(pin.data) : pin.data;
+    return { id: pin.id, filename: data.file };
+  });
+  return imgPinsId;
+};
+
+const savePins = async (req, res) => {
+  const { boardId } = req.params;
+  const { newPins } = req.body;
+  if (newPins.length === 0) {
+    return res.send("no pins to update");
+  }
+
+  const oldPins = await knex("pin").where({ board_id: boardId });
+  const oldImgPinIds = getImageIds(oldPins, true);
+  const newImgPinsId = getImageIds(newPins, false).map((imgObj) => imgObj.id);
+
+  oldImgPinIds.forEach((imgObj) => {
+    if (!newImgPinsId.includes(imgObj.id)) {
+      try {
+        fs.unlinkSync(
+          path.resolve(__dirname, `../public/uploads/${imgObj.filename}`)
+        );
+        console.log("deleted :" + imgObj.filename);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
+
+  await knex("pin").where({ board_id: boardId }).del();
+
+  const insertedPins = await knex("pin").insert(newPins);
+
+  res.json(insertedPins);
+};
+
 module.exports = {
   getPins,
   getBoardDetails,
   getPublicBoards,
   newBoard,
   saveBoard,
+  savePins,
 };

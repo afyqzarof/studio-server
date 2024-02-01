@@ -12,11 +12,19 @@ const getPins = async (req, res) => {
 };
 
 const getBoardDetails = async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const authToken = authHeader.split(" ")[1];
+  const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+
   const { boardId } = req.params;
   const boardDetails = await knex("board").where({ id: boardId }).first();
 
   if (!boardDetails) {
     return res.status(404).send("No board found");
+  }
+
+  if (boardDetails.user_id !== decoded.id) {
+    return res.status(401).send("you are not allowed to edit this board");
   }
   res.json(boardDetails);
 };

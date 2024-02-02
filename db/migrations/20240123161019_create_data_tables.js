@@ -8,6 +8,8 @@ exports.up = function (knex) {
       table.increments("id").primary();
       table.string("username").notNullable();
       table.string("email").notNullable();
+      table.string("bio");
+      table.string("link");
       table.string("password").notNullable();
       table.string("role").defaultTo("standard user");
       table.timestamp("created_at").defaultTo(knex.fn.now());
@@ -17,7 +19,7 @@ exports.up = function (knex) {
     })
     .createTable("board", (table) => {
       table.string("id").primary().notNullable();
-      table.string("title").notNullable();
+      table.string("title");
       table.boolean("is_public").notNullable().defaultTo(true);
       table
         .integer("user_id")
@@ -25,6 +27,9 @@ exports.up = function (knex) {
         .references("user.id")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+      table.string("thumbnail").defaultTo("default.png");
+      table.string("description");
+      table.string("category");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table
         .timestamp("updated_at")
@@ -51,5 +56,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("pins").dropTable("board").dropTable("user");
+  return knex.schema.dropTable("pin").dropTable("board").dropTable("user");
 };

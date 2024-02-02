@@ -1,11 +1,11 @@
-const router = require("express").Router();
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
+const { nanoid } = require("nanoid");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "server/public/uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -22,14 +22,15 @@ const fileFilter = (req, file, done) => {
     done(new Error("file type not supported"), false);
   }
 };
-const UPLOAD_PATH = path.join(__dirname, "../uploads");
+const UPLOAD_IMG_PATH = path.join(__dirname, "../public/uploads");
+const UPLOAD_THUMBNAIL_PATH = path.join(__dirname, "../public/thumbnails");
 const upload = multer({
   storage,
   limits,
   fileFilter,
 }).single("file");
 
-router.post("/", (req, res) => {
+const saveToFolder = (req, res, folder) => {
   upload(req, res, async (err) => {
     if (err) {
       return res.status(400).json({ success: false, message: err.message });
@@ -41,8 +42,8 @@ router.post("/", (req, res) => {
           .status(400)
           .json({ success: false, message: "file not supplied" });
       }
-      const newName = Date.now() + path.extname(file.originalname);
-      const newFilePath = path.join(UPLOAD_PATH, newName);
+      const newName = Date.now() + nanoid(5) + path.extname(file.originalname);
+      const newFilePath = path.join(folder, newName);
       // save newFilePath in your db as image path
       await sharp(file.path).resize().jpeg({ quality: 50 }).toFile(newFilePath);
       fs.unlinkSync(file.path);
@@ -55,5 +56,15 @@ router.post("/", (req, res) => {
       return res.status(500).json({ success: false, message: error.message });
     }
   });
-});
-module.exports = router;
+};
+const uploadImg = (req, res) => {
+  saveToFolder(req, res, UPLOAD_IMG_PATH);
+};
+const uploadThumbnail = (req, res) => {
+  saveToFolder(req, res, UPLOAD_THUMBNAIL_PATH);
+};
+
+module.exports = {
+  uploadImg,
+  uploadThumbnail,
+};

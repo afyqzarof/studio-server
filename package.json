@@ -5,10 +5,10 @@
   "main": "main.js",
   "scripts": {
     "dev": "node --watch main.js",
-    "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
-    "migrate:down": "knex migrate:down",
-    "migrate:rollback": "knex migrate:rollback"
+    "migrate": "cd db && knex migrate:latest",
+    "seed": "cd db && knex seed:run",
+    "rollback": "cd db && knex migrate:rollback",
+    "migrate:down": "cd db && knex migrate:down"
   },
   "author": "afyq zarof",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "knex": "^3.1.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.7.1",
+    "nanoid": "^3.3.7",
     "sharp": "^0.33.2"
   }
 }

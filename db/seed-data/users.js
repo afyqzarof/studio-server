@@ -5,6 +5,8 @@ module.exports = [
     username: "nuclear.instruments",
     email: "nuclear@instruments.my",
     password: bcrypt.hashSync("password123", 6),
+    bio: "indie bedroom artist / professional sad boi",
+    link: "https://www.instagram.com/nuclear.instruments",
   },
   {
     id: 2,

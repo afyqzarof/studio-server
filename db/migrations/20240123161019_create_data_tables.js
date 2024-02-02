@@ -8,6 +8,8 @@ exports.up = function (knex) {
       table.increments("id").primary();
       table.string("username").notNullable();
       table.string("email").notNullable();
+      table.string("bio");
+      table.string("link");
       table.string("password").notNullable();
       table.string("role").defaultTo("standard user");
       table.timestamp("created_at").defaultTo(knex.fn.now());

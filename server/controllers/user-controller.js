@@ -2,9 +2,18 @@ const knex = require("knex")(require("../../db/knexfile"));
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const index = async (_req, res) => {
+const index = async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(401).send("Please login");
+  }
+  const authHeader = req.headers.authorization;
+  const authToken = authHeader.split(" ")[1];
   try {
-    const inventory = await knex("user").select("id", "username", "email");
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const inventory = await knex("user")
+      .select("username", "email", "bio", "link")
+      .where({ id: decoded.id })
+      .first();
     res.status(200).json(inventory);
   } catch (err) {
     res.status(400).send(`Error retrieving users: ${err}`);
@@ -76,9 +85,40 @@ const login = async (req, res) => {
   }
 };
 
+const updateDetails = async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(401).send("Please login");
+  }
+  const { username, bio, link, email } = req.body;
+
+  if (!username || !email) {
+    return res.status(400).send("Please enter all fields");
+  }
+
+  const authHeader = req.headers.authorization;
+  const authToken = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const updateUser = await knex("user")
+      .where({ id: decoded.id })
+      .update("username", username)
+      .update("bio", bio)
+      .update("link", link)
+      .update("email", email);
+    if (updateUser === 0) {
+      res.status(404).send("user not found");
+    }
+    res.json("update successful");
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
 module.exports = {
   index,
   getBoards,
   register,
   login,
+  updateDetails,
 };

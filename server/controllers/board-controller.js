@@ -32,25 +32,45 @@ const getBoardDetails = async (req, res) => {
 const getPublicBoards = async (req, res) => {
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
-  const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
-  const publicBoards = await knex("board")
-    .join("user", "user.id", "board.user_id")
-    .select(
-      "user.username",
-      "board.title",
-      "board.thumbnail",
-      "board.id",
-      "board.created_at",
-      "board.description",
-      "board.category",
-      "board.user_id"
-    )
-    .where({ is_public: true });
+  if (authToken === "demo") {
+    const publicBoards = await knex("board")
+      .join("user", "user.id", "board.user_id")
+      .select(
+        "user.username",
+        "board.title",
+        "board.thumbnail",
+        "board.id",
+        "board.created_at",
+        "board.description",
+        "board.category",
+        "board.user_id"
+      );
+    return res.json(publicBoards);
+  }
 
-  const filteredBoards = publicBoards.filter(
-    (board) => board.user_id !== decoded.id
-  );
-  res.json(filteredBoards);
+  try {
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const publicBoards = await knex("board")
+      .join("user", "user.id", "board.user_id")
+      .select(
+        "user.username",
+        "board.title",
+        "board.thumbnail",
+        "board.id",
+        "board.created_at",
+        "board.description",
+        "board.category",
+        "board.user_id"
+      )
+      .where({ is_public: true });
+
+    const filteredBoards = publicBoards.filter(
+      (board) => board.user_id !== decoded.id
+    );
+    res.json(filteredBoards);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
 const newBoard = async (req, res) => {

@@ -160,6 +160,41 @@ const savePins = async (req, res) => {
   res.json(insertedPins);
 };
 
+const deleteBoard = async (req, res) => {
+  const { boardId } = req.params;
+  const board = await knex("board").where({ id: boardId }).first();
+  if (!board) {
+    res.status(404).send("cant find board");
+  }
+  const thumbnail = board.thumbnail;
+  if (thumbnail !== "default.png") {
+    try {
+      fs.unlinkSync(
+        path.resolve(__dirname, `../public/thumbnails/${thumbnail}`)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const oldPins = await knex("pin").where({ board_id: boardId });
+  const oldImgPinIds = getImageIds(oldPins, true);
+  oldImgPinIds.forEach((imgObj) => {
+    try {
+      fs.unlinkSync(
+        path.resolve(__dirname, `../public/uploads/${imgObj.filename}`)
+      );
+      // console.log("deleted: " + imgObj.filename);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  const deleteBoard = await knex("board").where({ id: boardId }).first().del();
+  console.log(deleteBoard);
+
+  res.status(204).send("delete successful");
+};
 module.exports = {
   getPins,
   getBoardDetails,
@@ -167,4 +202,5 @@ module.exports = {
   newBoard,
   saveBoard,
   savePins,
+  deleteBoard,
 };

@@ -2,6 +2,19 @@
 logs
 *.log
 
+server/public/thumbnails/*
+!server/public/thumbnails/default.png
+!server/public/thumbnails/board-img-1.png
+!server/public/thumbnails/board-img-2.png
+!server/public/thumbnails/board-img-3.png
+!server/public/thumbnails/explore1.png
+
+server/public/uploads/*
+!server/public/uploads/test.png
+!server/public/uploads/1706444532897.png
+!server/public/uploads/1706445392414.png
+!server/public/uploads/1706445605365.png
+
 # Runtime data
 pids
 *.pid

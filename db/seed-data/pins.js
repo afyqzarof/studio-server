@@ -69,7 +69,7 @@ module.exports = [
     x_coord: 512,
     y_coord: 270,
     data: {
-      file: "1706444532897.jpeg",
+      file: "demo-1.jpeg",
     },
   },
   {
@@ -146,7 +146,7 @@ module.exports = [
     id: "WAV6IwtZiJ",
     type: "ImageNode",
     data: {
-      file: "1706445605365.jpeg",
+      file: "demo-2.jpeg",
     },
     x_coord: 881,
     y_coord: 548,
@@ -194,7 +194,7 @@ module.exports = [
     id: "0WS0qnJicp",
     type: "ImageNode",
     data: {
-      file: "1706445392414.jpeg",
+      file: "demo-3.jpeg",
     },
     x_coord: 192,
     y_coord: 201,

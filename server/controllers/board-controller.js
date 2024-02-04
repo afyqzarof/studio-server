@@ -166,6 +166,16 @@ const deleteBoard = async (req, res) => {
   if (!board) {
     res.status(404).send("cant find board");
   }
+  const thumbnail = board.thumbnail;
+  if (thumbnail !== "default.png") {
+    try {
+      fs.unlinkSync(
+        path.resolve(__dirname, `../public/thumbnails/${thumbnail}`)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const oldPins = await knex("pin").where({ board_id: boardId });
   const oldImgPinIds = getImageIds(oldPins, true);
@@ -174,7 +184,7 @@ const deleteBoard = async (req, res) => {
       fs.unlinkSync(
         path.resolve(__dirname, `../public/uploads/${imgObj.filename}`)
       );
-      console.log("deleted: " + imgObj.filename);
+      // console.log("deleted: " + imgObj.filename);
     } catch (error) {
       console.log(error);
     }

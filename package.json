@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "dev": "node --watch main.js",
+    "test": "jest --detectOpenHandles",
     "migrate": "cd db && knex migrate:latest",
     "seed": "cd db && knex seed:run",
     "rollback": "cd db && knex migrate:rollback",
@@ -24,5 +25,9 @@
     "mysql2": "^3.7.1",
     "nanoid": "^3.3.7",
     "sharp": "^0.33.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }

@@ -1,4 +1,4 @@
-const knex = require("knex")(require("../../db/knexfile"));
+const knex = require("../configs/knex-config");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -51,11 +51,10 @@ const register = async (req, res) => {
   };
 
   try {
-    await knex("user").insert(newUser);
-    return res.status(201).json(newUser);
+    const [createdUserId] = await knex("user").insert(newUser);
+    return res.status(201).json({ id: createdUserId, username, email });
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ message: "Failed registration" });
+    return res.status(500).json({ message: "Failed registration", error });
   }
 };
 

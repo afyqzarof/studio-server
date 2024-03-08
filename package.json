@@ -4,12 +4,14 @@
   "description": "studio backend and data base",
   "main": "main.js",
   "scripts": {
-    "dev": "node --watch main.js",
+    "start": "node ./dist/main.js",
+    "tsc": "tsc",
+    "dev": "nodemon src/main.ts",
     "test": "jest --detectOpenHandles",
-    "migrate": "cd db && knex migrate:latest",
-    "seed": "cd db && knex seed:run",
-    "rollback": "cd db && knex migrate:rollback",
-    "migrate:down": "cd db && knex migrate:down"
+    "migrate": "cd src/db && knex migrate:latest",
+    "seed": "cd src/db && knex seed:run",
+    "rollback": "cd src/db && knex migrate:rollback",
+    "migrate:down": "cd src/db && knex migrate:down"
   },
   "author": "afyq zarof",
   "license": "ISC",
@@ -27,6 +29,17 @@
     "sharp": "^0.33.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.11.25",
+    "@typescript-eslint/parser": "^7.1.1",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2",
     "jest": "^29.7.0",
     "supertest": "^6.3.4"
   }

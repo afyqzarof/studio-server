@@ -1,15 +1,23 @@
-const knex = require("../configs/knex-config");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const knex = require("knex")(require("../../db/knexfile"));
+import Knex from "knex";
+import knexfile from "../../db/knexfile";
+import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { Request, Response } from "express";
 
-const index = async (req, res) => {
+const knex = Knex(knexfile);
+
+const index = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
     const inventory = await knex("user")
       .select("username", "email", "bio", "link")
       .where({ id: decoded.id })
@@ -20,14 +28,17 @@ const index = async (req, res) => {
   }
 };
 
-const getBoards = async (req, res) => {
+const getBoards = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
     const boards = await knex("board").where({ user_id: decoded.id });
     res.json(boards);
   } catch (err) {
@@ -35,7 +46,7 @@ const getBoards = async (req, res) => {
   }
 };
 
-const register = async (req, res) => {
+const register = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
@@ -51,14 +62,15 @@ const register = async (req, res) => {
   };
 
   try {
-    const [createdUserId] = await knex("user").insert(newUser);
-    return res.status(201).json({ id: createdUserId, username, email });
+    await knex("user").insert(newUser);
+    return res.status(201).json(newUser);
   } catch (error) {
-    return res.status(500).json({ message: "Failed registration", error });
+    console.log(error);
+    return res.status(400).json({ message: "Failed registration" });
   }
 };
 
-const login = async (req, res) => {
+const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -79,12 +91,11 @@ const login = async (req, res) => {
     );
     return res.json({ token });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({ message: "Failed login" });
   }
 };
 
-const updateDetails = async (req, res) => {
+const updateDetails = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
@@ -98,13 +109,18 @@ const updateDetails = async (req, res) => {
   const authToken = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
-    const updateUser = await knex("user")
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
+
+    const updateUser: number = await knex("user")
       .where({ id: decoded.id })
       .update("username", username)
       .update("bio", bio)
       .update("link", link)
       .update("email", email);
+
     if (updateUser === 0) {
       res.status(404).send("user not found");
     }
@@ -114,10 +130,11 @@ const updateDetails = async (req, res) => {
   }
 };
 
-module.exports = {
+const userController = {
   index,
   getBoards,
   register,
   login,
   updateDetails,
 };
+export default userController;

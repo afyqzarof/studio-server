@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "tsc": "tsc",
-    "dev": "ts-node-dev main.ts",
+    "dev": "nodemon main.ts",
     "migrate": "cd src/db && knex migrate:latest",
     "seed": "cd src/db && knex seed:run",
     "rollback": "cd src/db && knex migrate:rollback",
@@ -32,8 +32,8 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.25",
     "@typescript-eslint/parser": "^7.1.1",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.2"
   }
 }

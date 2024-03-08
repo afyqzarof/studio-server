@@ -1,20 +1,27 @@
-const knex = require("knex")(require("../../db/knexfile"));
-const { nanoid } = require("nanoid");
-const jwt = require("jsonwebtoken");
-const fs = require("fs");
-const path = require("path");
-const getImageIds = require("../utils/get-image-pin");
+import Knex from "knex";
+import knexfile from "../../db/knexfile";
+import { nanoid } from "nanoid";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
+import { Request, Response } from "express";
+import getImageIds from "../utils/get-image-pin";
 
-const getPins = async (req, res) => {
+const knex = Knex(knexfile);
+
+const getPins = async (req: Request, res: Response) => {
   const { boardId } = req.params;
   const pins = await knex("pin").where({ board_id: boardId });
   res.json(pins);
 };
 
-const getBoardDetails = async (req, res) => {
+const getBoardDetails = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
-  const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+  const decoded: JwtPayload = jwt.verify(
+    authToken,
+    process.env.JWT_SECRET
+  ) as JwtPayload;
 
   const { boardId } = req.params;
   const boardDetails = await knex("board").where({ id: boardId }).first();
@@ -29,7 +36,7 @@ const getBoardDetails = async (req, res) => {
   res.json(boardDetails);
 };
 
-const getPublicBoards = async (req, res) => {
+const getPublicBoards = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
   if (authToken === "demo") {
@@ -49,7 +56,10 @@ const getPublicBoards = async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
     const publicBoards = await knex("board")
       .join("user", "user.id", "board.user_id")
       .select(
@@ -73,7 +83,7 @@ const getPublicBoards = async (req, res) => {
   }
 };
 
-const newBoard = async (req, res) => {
+const newBoard = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
@@ -81,7 +91,10 @@ const newBoard = async (req, res) => {
   const authToken = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
     const userId = decoded.id;
 
     const newBoard = {
@@ -95,7 +108,7 @@ const newBoard = async (req, res) => {
     res.status(400).send(error);
   }
 };
-const saveBoard = async (req, res) => {
+const saveBoard = async (req: Request, res: Response) => {
   const { title, boardId, filename } = req.body;
 
   if (!title || !boardId || !filename) {
@@ -105,7 +118,7 @@ const saveBoard = async (req, res) => {
   if (thumbnail !== "default.png") {
     try {
       fs.unlinkSync(
-        path.resolve(__dirname, `../public/thumbnails/${thumbnail}`)
+        path.resolve(__dirname, `../../../public/thumbnails/${thumbnail}`)
       );
     } catch (error) {
       console.log(error);
@@ -129,7 +142,7 @@ const saveBoard = async (req, res) => {
   }
 };
 
-const savePins = async (req, res) => {
+const savePins = async (req: Request, res: Response) => {
   const { boardId } = req.params;
   const { newPins } = req.body;
   if (newPins.length === 0) {
@@ -144,9 +157,8 @@ const savePins = async (req, res) => {
     if (!newImgPinsId.includes(imgObj.id)) {
       try {
         fs.unlinkSync(
-          path.resolve(__dirname, `../public/uploads/${imgObj.filename}`)
+          path.resolve(__dirname, `../../../public/uploads/${imgObj.filename}`)
         );
-        // console.log("deleted: " + imgObj.filename);
       } catch (error) {
         console.log(error);
       }
@@ -160,7 +172,7 @@ const savePins = async (req, res) => {
   res.json(insertedPins);
 };
 
-const deleteBoard = async (req, res) => {
+const deleteBoard = async (req: Request, res: Response) => {
   const { boardId } = req.params;
   const board = await knex("board").where({ id: boardId }).first();
   if (!board) {
@@ -170,7 +182,7 @@ const deleteBoard = async (req, res) => {
   if (thumbnail !== "default.png") {
     try {
       fs.unlinkSync(
-        path.resolve(__dirname, `../public/thumbnails/${thumbnail}`)
+        path.resolve(__dirname, `../../../public/thumbnails/${thumbnail}`)
       );
     } catch (error) {
       console.log(error);
@@ -182,7 +194,7 @@ const deleteBoard = async (req, res) => {
   oldImgPinIds.forEach((imgObj) => {
     try {
       fs.unlinkSync(
-        path.resolve(__dirname, `../public/uploads/${imgObj.filename}`)
+        path.resolve(__dirname, `../../../public/uploads/${imgObj.filename}`)
       );
       // console.log("deleted: " + imgObj.filename);
     } catch (error) {
@@ -195,7 +207,7 @@ const deleteBoard = async (req, res) => {
 
   res.status(204).send("delete successful");
 };
-module.exports = {
+const boardController = {
   getPins,
   getBoardDetails,
   getPublicBoards,
@@ -204,3 +216,5 @@ module.exports = {
   savePins,
   deleteBoard,
 };
+
+export default boardController;

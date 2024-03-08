@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const {
   DB_HOST: host,
@@ -29,10 +30,10 @@ module.exports = {
       charset: "utf8",
     },
     migrations: {
-      directory: "./db/migrations",
+      directory: path.join(__dirname, "/migrations"),
     },
     seeds: {
-      directory: "./db/seeds",
+      directory: path.join(__dirname, "/seeds"),
     },
   },
 };

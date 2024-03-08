@@ -1,7 +1,10 @@
-const knex = require("knex")(require("../../db/knexfile"));
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const knex = require("knex")(require("../../db/knexfile"));
+import knex from "knex";
+import knexfile from "../../db/knexfile";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
+knex(knexfile);
 const index = async (req, res) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
@@ -115,10 +118,18 @@ const updateDetails = async (req, res) => {
   }
 };
 
-module.exports = {
+// module.exports = {
+//   index,
+//   getBoards,
+//   register,
+//   login,
+//   updateDetails,
+// };
+const userController = {
   index,
   getBoards,
   register,
   login,
   updateDetails,
 };
+export default userController;

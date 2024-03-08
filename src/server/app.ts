@@ -1,22 +1,19 @@
-// const express = require("express");
-// const cors = require("cors");
 import express from "express";
 import cors from "cors";
-const app = express();
 
-// const userRoutes = require("./routes/user-routes.js");
-// const boardRoutes = require("./routes/board-routes.js");
-// const wordRoutes = require("./routes/word-routes.js");
-// const uploadRoutes = require("./routes/upload-routes.js");
+import userRoutes from "./routes/user.routes";
+// import boardRoutes from "./routes/board-routes.js";
+// import wordRoutes from "./routes/word-routes.js";
+// import uploadRoutes from "./routes/upload-routes.js";
+const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use("/upload", express.static("server/public/uploads"));
-// app.use("/thumbnails", express.static("server/public/thumbnails"));
-// app.use("/users", userRoutes);
+app.use("/upload", express.static("server/public/uploads"));
+app.use("/thumbnails", express.static("server/public/thumbnails"));
+app.use("/users", userRoutes);
 // app.use("/boards", boardRoutes);
 // app.use("/word", wordRoutes);
 // app.use("/upload", uploadRoutes);
 
-// module.exports = app;
 export default app;

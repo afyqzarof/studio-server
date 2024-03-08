@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { Request, Response } from "express";
 import getImageIds from "../utils/get-image-pin";
+import { Board } from "../types/board";
 
 const knex = Knex(knexfile);
 

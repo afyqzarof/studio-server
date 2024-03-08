@@ -1,12 +1,15 @@
-require("dotenv").config();
-const axios = require("axios");
+import dotenv from "dotenv";
+import axios from "axios";
+import { Request, Response } from "express";
+import { Definition, Rhyme } from "../types/words";
+dotenv.config();
 const dictUrl = process.env.DICT_URL;
 const rhymeUrl = process.env.RHYME_URL;
 
-const getDef = async (req, res) => {
+const getDef = async (req: Request, res: Response) => {
   try {
     const { word } = req.params;
-    const { data } = await axios.get(dictUrl + word);
+    const { data } = await axios.get<Definition[]>(dictUrl + word);
     const meaningsArray = data[0].meanings;
     const defArray = meaningsArray.map((obj) => {
       const { partOfSpeech, definitions } = obj;
@@ -19,10 +22,10 @@ const getDef = async (req, res) => {
   }
 };
 
-const getSynonym = async (req, res) => {
+const getSynonym = async (req: Request, res: Response) => {
   try {
     const { word } = req.params;
-    const { data } = await axios.get(dictUrl + word);
+    const { data } = await axios.get<Definition[]>(dictUrl + word);
     const meaningsArray = data[0].meanings;
     const synonymArray = meaningsArray
       .map((obj) => obj.synonyms)
@@ -33,10 +36,10 @@ const getSynonym = async (req, res) => {
     res.status(400).send(err);
   }
 };
-const getAntonym = async (req, res) => {
+const getAntonym = async (req: Request, res: Response) => {
   try {
     const { word } = req.params;
-    const { data } = await axios.get(dictUrl + word);
+    const { data } = await axios.get<Definition[]>(dictUrl + word);
     const meaningsArray = data[0].meanings;
     const antonymArray = meaningsArray
       .map((obj) => obj.antonyms)
@@ -48,10 +51,10 @@ const getAntonym = async (req, res) => {
   }
 };
 
-const getRhyme = async (req, res) => {
+const getRhyme = async (req: Request, res: Response) => {
   try {
     const { word } = req.params;
-    const { data } = await axios.get(rhymeUrl + word);
+    const { data } = await axios.get<Rhyme[]>(rhymeUrl + word);
     const commonRhymes = data
       .sort((a, b) => b.freq - a.freq)
       .map((wordObj) => wordObj.word)
@@ -61,10 +64,11 @@ const getRhyme = async (req, res) => {
     res.status(400).send(err);
   }
 };
-
-module.exports = {
+const wordController = {
   getDef,
   getSynonym,
   getAntonym,
   getRhyme,
 };
+
+export default wordController;

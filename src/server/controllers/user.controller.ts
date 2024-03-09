@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
 
-const knex = Knex(knexfile);
+import knex from "../configs/knex-config";
 
 const index = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {

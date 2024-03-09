@@ -1,6 +1,6 @@
-const request = require("supertest");
-const app = require("../app");
-const knex = require("../configs/knex-config");
+import request from "supertest";
+import app from "../app";
+import knex from "../configs/knex-config";
 
 beforeAll(async () => {
   await knex.migrate.latest();
@@ -35,7 +35,6 @@ describe("POST /users/register", () => {
       email: "user@example.com",
       password: "password123",
     });
-    console.log(res.body);
 
     expect(res.statusCode).toEqual(201);
   });

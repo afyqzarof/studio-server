@@ -1,5 +1,6 @@
-import Knex from "knex";
-import knexfile from "../../db/knexfile";
+// import Knex from "knex";
+// import knexfile from "../../db/knexfile";
+import knex from "../configs/knex-config";
 import { nanoid } from "nanoid";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import fs from "fs";
@@ -8,7 +9,7 @@ import { Request, Response } from "express";
 import getImageIds from "../utils/get-image-pin";
 import { Board } from "../types/board";
 
-const knex = Knex(knexfile);
+// const knex = Knex(knexfile);
 
 const getPins = async (req: Request, res: Response) => {
   const { boardId } = req.params;

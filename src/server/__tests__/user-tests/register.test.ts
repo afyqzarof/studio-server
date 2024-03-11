@@ -1,6 +1,6 @@
 import request from "supertest";
-import app from "../app";
-import knex from "../configs/knex-config";
+import app from "../../app";
+import knex from "../../configs/knex-config";
 
 beforeAll(async () => {
   await knex.migrate.latest();
@@ -37,5 +37,10 @@ describe("POST /users/register", () => {
     });
 
     expect(res.statusCode).toEqual(201);
+
+    expect(res.body).toEqual({
+      username: "test name",
+      email: "user@example.com",
+    });
   });
 });

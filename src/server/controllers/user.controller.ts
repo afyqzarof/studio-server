@@ -1,6 +1,3 @@
-// const knex = require("knex")(require("../../db/knexfile"));
-import Knex from "knex";
-import knexfile from "../../db/knexfile";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
@@ -63,7 +60,7 @@ const register = async (req: Request, res: Response) => {
 
   try {
     await knex("user").insert(newUser);
-    return res.status(201).json(newUser);
+    return res.status(201).json({ username, email });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Failed registration" });
@@ -91,7 +88,7 @@ const login = async (req: Request, res: Response) => {
     );
     return res.json({ token });
   } catch (error) {
-    return res.status(400).json({ message: "Failed login" });
+    return res.status(500).json({ message: "Failed login" });
   }
 };
 

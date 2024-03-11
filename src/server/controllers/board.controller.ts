@@ -1,6 +1,4 @@
-// import Knex from "knex";
-// import knexfile from "../../db/knexfile";
-import knex from "../configs/knex-config";
+import knex from "../configs/knex.config";
 import { nanoid } from "nanoid";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import fs from "fs";

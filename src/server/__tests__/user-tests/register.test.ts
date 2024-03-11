@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../../app";
-import knex from "../../configs/knex-config";
+import knex from "../../configs/knex.config";
 
 beforeAll(async () => {
   await knex.migrate.latest();

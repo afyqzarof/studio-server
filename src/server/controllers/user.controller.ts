@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
 
-import knex from "../configs/knex-config";
+import knex from "../configs/knex.config";
 
 const index = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
@@ -15,13 +15,14 @@ const index = async (req: Request, res: Response) => {
       authToken,
       process.env.JWT_SECRET
     ) as JwtPayload;
+
     const inventory = await knex("user")
       .select("username", "email", "bio", "link")
       .where({ id: decoded.id })
       .first();
     res.status(200).json(inventory);
   } catch (err) {
-    res.status(400).send(`Error retrieving users: ${err}`);
+    res.status(500).send(`Error retrieving users: ${err}`);
   }
 };
 

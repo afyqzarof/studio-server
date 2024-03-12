@@ -99,7 +99,7 @@ const updateDetails = async (req: Request, res: Response) => {
   }
   const { username, bio, link, email } = req.body;
 
-  if (!username || !email) {
+  if (!username || !email || !link || !email) {
     return res.status(400).send("Please enter all fields");
   }
 
@@ -124,7 +124,7 @@ const updateDetails = async (req: Request, res: Response) => {
     }
     res.json("update successful");
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 };
 

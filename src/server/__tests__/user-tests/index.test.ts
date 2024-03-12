@@ -1,14 +1,10 @@
 import request from "supertest";
 import app from "../../app";
+import { authHeader } from "../helpers/test.setup";
 import knex from "../../configs/knex.config";
-import jwt from "jsonwebtoken";
-import { userId, authHeader } from "../helpers/test.setup";
 
 const route = "/users";
-// const token = jwt.sign(
-//   { id: 1, username: "nuclear.instruments", role: "standard user" },
-//   process.env.JWT_SECRET!
-// );
+
 type UserDetails = {
   bio: string;
   email: string;
@@ -22,20 +18,6 @@ const userDetails: UserDetails = {
   username: "nuclear.instruments",
 };
 
-// beforeAll(async () => {
-//   await knex.migrate.latest();
-//   await knex.seed.run();
-// });
-
-// beforeEach(async () => {
-//   await knex.seed.run();
-// });
-
-// afterAll(async () => {
-//   await knex.migrate.rollback();
-//   await knex.destroy();
-// });
-
 describe("GET /users", () => {
   it("should return 401 with no login header", async () => {
     const res = await request(app).get(route);
@@ -46,5 +28,43 @@ describe("GET /users", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toMatchObject<UserDetails>(userDetails);
+  });
+  it("returns 500 if database error", async () => {
+    await knex.migrate.rollback();
+
+    const res = await request(app).get(route).set(authHeader);
+    expect(res.statusCode).toBe(500);
+
+    await knex.migrate.latest();
+  });
+});
+
+describe("PATCH /users", () => {
+  it("should return 401 with no login header", async () => {
+    const res = await request(app).patch(route);
+    expect(res.statusCode).toBe(401);
+  });
+  it("should return 400 with incomplete body", async () => {
+    const res = await request(app).patch(route).set(authHeader);
+    expect(res.statusCode).toBe(400);
+  });
+  it("should return updated credentials", async () => {
+    const res = await request(app)
+      .patch(route)
+      .set(authHeader)
+      .send({ ...userDetails, username: "new username" });
+    expect(res.statusCode).toBe(200);
+  });
+  it("returns 500 if database error", async () => {
+    await knex.migrate.rollback();
+
+    const res = await request(app)
+      .patch(route)
+      .set(authHeader)
+      .send({ ...userDetails, username: "new username" });
+
+    expect(res.statusCode).toBe(500);
+
+    await knex.migrate.latest();
   });
 });

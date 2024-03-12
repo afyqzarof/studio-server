@@ -40,7 +40,7 @@ const getBoards = async (req: Request, res: Response) => {
     const boards = await knex("board").where({ user_id: decoded.id });
     res.json(boards);
   } catch (err) {
-    res.status(400).send(`Error retrieving boards: ${err}`);
+    res.status(500).send(`Error retrieving boards: ${err}`);
   }
 };
 

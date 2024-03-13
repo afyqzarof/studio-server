@@ -18,7 +18,7 @@ const getDef = async (req: Request, res: Response) => {
     });
     res.json(defArray);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(500).send(err);
   }
 };
 

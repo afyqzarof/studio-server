@@ -33,7 +33,7 @@ const getSynonym = async (req: Request, res: Response) => {
       .slice(0, 11);
     res.json(synonymArray);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(500).send(err);
   }
 };
 const getAntonym = async (req: Request, res: Response) => {
@@ -47,7 +47,7 @@ const getAntonym = async (req: Request, res: Response) => {
       .slice(0, 11);
     res.json(antonymArray);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(500).send(err);
   }
 };
 
@@ -61,7 +61,7 @@ const getRhyme = async (req: Request, res: Response) => {
       .slice(0, 16);
     res.json(commonRhymes);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(500).send(err);
   }
 };
 const wordController = {

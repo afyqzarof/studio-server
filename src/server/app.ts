@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import path from "path";
 
@@ -6,7 +6,7 @@ import userRoutes from "./routes/user.routes";
 import boardRoutes from "./routes/board.routes";
 import wordRoutes from "./routes/word.routes";
 import uploadRoutes from "./routes/upload.routes";
-const app = express();
+const app: Application = express();
 
 app.use(cors());
 app.use(express.json());

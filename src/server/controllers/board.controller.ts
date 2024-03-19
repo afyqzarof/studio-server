@@ -1,5 +1,4 @@
-import Knex from "knex";
-import knexfile from "../../db/knexfile";
+import knex from "../configs/knex.config";
 import { nanoid } from "nanoid";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import fs from "fs";
@@ -8,33 +7,39 @@ import { Request, Response } from "express";
 import getImageIds from "../utils/get-image-pin";
 import { Board } from "../types/board";
 
-const knex = Knex(knexfile);
-
 const getPins = async (req: Request, res: Response) => {
   const { boardId } = req.params;
-  const pins = await knex("pin").where({ board_id: boardId });
-  res.json(pins);
+  try {
+    const pins = await knex("pin").where({ board_id: boardId });
+    res.json(pins);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 const getBoardDetails = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
-  const decoded: JwtPayload = jwt.verify(
-    authToken,
-    process.env.JWT_SECRET
-  ) as JwtPayload;
+  try {
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
 
-  const { boardId } = req.params;
-  const boardDetails = await knex("board").where({ id: boardId }).first();
+    const { boardId } = req.params;
+    const boardDetails = await knex("board").where({ id: boardId }).first();
 
-  if (!boardDetails) {
-    return res.status(404).send("No board found");
+    if (!boardDetails) {
+      return res.status(404).send("No board found");
+    }
+
+    if (boardDetails.user_id !== decoded.id) {
+      return res.status(401).send("you are not allowed to edit this board");
+    }
+    res.json(boardDetails);
+  } catch (error) {
+    res.status(500).send(error);
   }
-
-  if (boardDetails.user_id !== decoded.id) {
-    return res.status(401).send("you are not allowed to edit this board");
-  }
-  res.json(boardDetails);
 };
 
 const getPublicBoards = async (req: Request, res: Response) => {

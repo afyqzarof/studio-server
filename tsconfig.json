@@ -4,7 +4,7 @@
     "lib": ["es6"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "allowJs": true,
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
     "esModuleInterop": true,
@@ -13,5 +13,5 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/__tests__/**/*"]
 }

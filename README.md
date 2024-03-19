@@ -1,6 +1,11 @@
 # studio server
 
-This is the backend for [studio](https://ideation-studio.dev) / [frontend repo](https://github.com/afyqzarof/studio-client)
+Back End GitHub Repository
+
+### Links:
+
+- [Website](https://ideation-studio.dev)
+- [Front End repo](https://github.com/afyqzarof/studio-client)
 
 ## To run
 

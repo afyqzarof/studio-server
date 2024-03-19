@@ -1,41 +1,50 @@
-const knex = require("knex")(require("../../db/knexfile"));
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { Request, Response } from "express";
 
-const index = async (req, res) => {
+import knex from "../configs/knex.config";
+
+const index = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
+
     const inventory = await knex("user")
       .select("username", "email", "bio", "link")
       .where({ id: decoded.id })
       .first();
     res.status(200).json(inventory);
   } catch (err) {
-    res.status(400).send(`Error retrieving users: ${err}`);
+    res.status(500).send(`Error retrieving users: ${err}`);
   }
 };
 
-const getBoards = async (req, res) => {
+const getBoards = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
     const boards = await knex("board").where({ user_id: decoded.id });
     res.json(boards);
   } catch (err) {
-    res.status(400).send(`Error retrieving boards: ${err}`);
+    res.status(500).send(`Error retrieving boards: ${err}`);
   }
 };
 
-const register = async (req, res) => {
+const register = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
@@ -52,14 +61,14 @@ const register = async (req, res) => {
 
   try {
     await knex("user").insert(newUser);
-    return res.status(201).json(newUser);
+    return res.status(201).json({ username, email });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Failed registration" });
   }
 };
 
-const login = async (req, res) => {
+const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -80,18 +89,17 @@ const login = async (req, res) => {
     );
     return res.json({ token });
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ message: "Failed login" });
+    return res.status(500).json({ message: "Failed login" });
   }
 };
 
-const updateDetails = async (req, res) => {
+const updateDetails = async (req: Request, res: Response) => {
   if (!req.headers.authorization) {
     return res.status(401).send("Please login");
   }
   const { username, bio, link, email } = req.body;
 
-  if (!username || !email) {
+  if (!username || !email || !link || !email) {
     return res.status(400).send("Please enter all fields");
   }
 
@@ -99,26 +107,32 @@ const updateDetails = async (req, res) => {
   const authToken = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
-    const updateUser = await knex("user")
+    const decoded: JwtPayload = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET
+    ) as JwtPayload;
+
+    const updateUser: number = await knex("user")
       .where({ id: decoded.id })
       .update("username", username)
       .update("bio", bio)
       .update("link", link)
       .update("email", email);
+
     if (updateUser === 0) {
       res.status(404).send("user not found");
     }
     res.json("update successful");
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 };
 
-module.exports = {
+const userController = {
   index,
   getBoards,
   register,
   login,
   updateDetails,
 };
+export default userController;

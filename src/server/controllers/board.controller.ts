@@ -202,14 +202,12 @@ const deleteBoard = async (req: Request, res: Response) => {
       fs.unlinkSync(
         path.resolve(__dirname, `../../../public/uploads/${imgObj.filename}`)
       );
-      // console.log("deleted: " + imgObj.filename);
     } catch (error) {
       console.log(error);
     }
   });
 
   const deleteBoard = await knex("board").where({ id: boardId }).first().del();
-  console.log(deleteBoard);
 
   res.status(204).send("delete successful");
 };

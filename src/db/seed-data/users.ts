@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-module.exports = [
+import bcrypt from "bcrypt";
+export default [
   {
     id: 1,
     username: "nuclear.instruments",

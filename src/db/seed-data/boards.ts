@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     id: "TMFld0860EctVn2",
     title: "brand identity",

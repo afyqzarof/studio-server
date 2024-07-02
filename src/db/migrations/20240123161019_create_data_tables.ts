@@ -1,8 +1,6 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.up = function (knex) {
+import type { Knex } from "knex";
+
+export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("user", (table) => {
       table.increments("id").primary();
@@ -49,12 +47,8 @@ exports.up = function (knex) {
       table.integer("width");
       table.integer("height");
     });
-};
+}
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = function (knex) {
+export async function down(knex: Knex): Promise<void> {
   return knex.schema.dropTable("pin").dropTable("board").dropTable("user");
-};
+}

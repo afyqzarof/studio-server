@@ -9,27 +9,28 @@ Back End GitHub Repository
 
 ## To run
 
-1. Ensure .env file is filled in according to .env.sample
-2. Install dependencies:
+1. Ensure `.env` file is filled in according to `.env.sample`
+2. Add file `dev.sqlite3` to `src/db/database` directory
+3. Install dependencies:
 
 ```bash
-npm install
+yarn install
 ```
 
-3. Run migrations:
+4. Run migrations:
 
 ```bash
-npm run migrate
+yarn migrate
 ```
 
-4. Seed data:
+5. Seed data:
 
 ```bash
-npm run seed
+yarn seed
 ```
 
-5. Start development server:
+6. Start development server:
 
 ```bash
-npm run dev
+yarn dev
 ```

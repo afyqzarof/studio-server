@@ -101,11 +101,12 @@ const newBoard = async (req: Request, res: Response) => {
       authToken,
       process.env.JWT_SECRET
     ) as JwtPayload;
-    const userId = decoded.id;
+    const userId = decoded.id as string;
 
-    const newBoard = {
+    const newBoard: Board = {
       id: nanoid(15),
       user_id: userId,
+      thumbnail: "default.png",
     };
 
     await knex("board").insert(newBoard);

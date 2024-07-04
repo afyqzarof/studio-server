@@ -85,7 +85,7 @@ const getPublicBoards = async (req: Request, res: Response) => {
     );
     res.json(filteredBoards);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 };
 
@@ -101,17 +101,18 @@ const newBoard = async (req: Request, res: Response) => {
       authToken,
       process.env.JWT_SECRET
     ) as JwtPayload;
-    const userId = decoded.id;
+    const userId = decoded.id as string;
 
-    const newBoard = {
+    const newBoard: Board = {
       id: nanoid(15),
       user_id: userId,
+      thumbnail: "default.png",
     };
 
     await knex("board").insert(newBoard);
     res.json(newBoard);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 };
 const saveBoard = async (req: Request, res: Response) => {
@@ -144,7 +145,7 @@ const saveBoard = async (req: Request, res: Response) => {
     const updatedBoard = await knex("board").where({ id: boardId }).first();
     res.json(updatedBoard);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 };
 
@@ -202,14 +203,12 @@ const deleteBoard = async (req: Request, res: Response) => {
       fs.unlinkSync(
         path.resolve(__dirname, `../../../public/uploads/${imgObj.filename}`)
       );
-      // console.log("deleted: " + imgObj.filename);
     } catch (error) {
       console.log(error);
     }
   });
 
   const deleteBoard = await knex("board").where({ id: boardId }).first().del();
-  console.log(deleteBoard);
 
   res.status(204).send("delete successful");
 };

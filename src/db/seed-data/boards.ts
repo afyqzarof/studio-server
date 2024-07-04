@@ -1,11 +1,11 @@
-module.exports = [
+export default [
   {
     id: "TMFld0860EctVn2",
     title: "brand identity",
     is_public: true,
     user_id: 1,
     created_at: "2023-06-01",
-    thumbnail: "board-img-1.png",
+    thumbnail: "demo-board-2.png",
     description: "vibes is something that can't be explained with science",
     category: "music",
   },
@@ -15,7 +15,7 @@ module.exports = [
     is_public: true,
     user_id: 1,
     created_at: "2023-03-26",
-    thumbnail: "board-img-2.png",
+    thumbnail: "demo-board-3.png",
   },
   {
     id: "edMDU5I-YtRe0Pu",
@@ -23,7 +23,7 @@ module.exports = [
     is_public: false,
     user_id: 1,
     created_at: "2023-10-09",
-    thumbnail: "board-img-3.png",
+    thumbnail: "demo-board-1.png",
   },
   {
     id: "L_XEx-ZHeZkPSVb",

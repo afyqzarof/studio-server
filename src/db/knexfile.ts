@@ -12,6 +12,45 @@ const {
 
 export default {
   development: {
+    client: "sqlite3",
+    connection: {
+      filename: path.join(__dirname, "/database/dev.sqlite3"),
+    },
+    migrations: {
+      directory: path.join(__dirname, "/migrations"),
+    },
+    seeds: {
+      directory: path.join(__dirname, "/seeds"),
+    },
+    useNullAsDefault: true,
+  },
+  test: {
+    client: "sqlite3",
+    connection: {
+      filename: path.join(__dirname, "/database/test.sqlite3"),
+    },
+    migrations: {
+      directory: path.join(__dirname, "/migrations"),
+    },
+    seeds: {
+      directory: path.join(__dirname, "/seeds"),
+    },
+    useNullAsDefault: true,
+  },
+  production: {
+    client: "sqlite3",
+    connection: {
+      filename: path.join(__dirname, "/database/production.sqlite3"),
+    },
+    migrations: {
+      directory: path.join(__dirname, "/migrations"),
+    },
+    seeds: {
+      directory: path.join(__dirname, "/seeds"),
+    },
+    useNullAsDefault: true,
+  },
+  development_mysql: {
     client: "mysql2",
     connection: {
       host,
@@ -27,7 +66,7 @@ export default {
       directory: path.join(__dirname, "/seeds"),
     },
   },
-  test: {
+  test_mysql: {
     client: "mysql2",
     connection: {
       host,

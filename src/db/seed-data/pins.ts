@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     board_id: "TMFld0860EctVn2",
     width: 400,

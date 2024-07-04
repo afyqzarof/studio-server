@@ -1,7 +1,7 @@
 # Logs
 logs
 *.log
-
+database/
 **/thumbnails/*
 !**/thumbnails/default.png
 !**/thumbnails/board-img-1.png

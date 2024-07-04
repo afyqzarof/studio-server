@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+database/
 
 **/thumbnails/*
 !**/thumbnails/default.png

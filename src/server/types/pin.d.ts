@@ -1,4 +1,4 @@
-export type Pin<T> = {
+export type Pin<T = PinData> = {
   board_id: string;
   width: number;
   height: number;
@@ -8,3 +8,12 @@ export type Pin<T> = {
   x_coord: number;
   y_coord: number;
 };
+
+export type PinData = {
+  youtube_id?: string;
+  text?: string;
+  color?: string;
+  file?: string;
+  track_id?: string;
+};
+

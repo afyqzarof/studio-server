@@ -37,7 +37,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("type");
       table.integer("x_coord");
       table.integer("y_coord");
-      table.string("data", 1000);
+      table.json("data");
       table
         .string("board_id")
         .references("board.id")

@@ -6,11 +6,12 @@
     "moduleResolution": "NodeNext",
     "types": ["node", "jest"],
     "allowJs": true,
-    "outDir": "dist" /* Specify an output folder for all emitted files. */,
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "strict": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/__tests__/**/*"]

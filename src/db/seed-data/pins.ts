@@ -7,6 +7,7 @@ export default [
     type: "YoutubeVidNode",
     data: {
       youtube_id: "sDENI1Zx7Wc",
+      something_else: "here",
     },
     x_coord: 600,
     y_coord: 200,

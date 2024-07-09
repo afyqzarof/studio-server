@@ -14,23 +14,23 @@ Back End GitHub Repository
 3. Install dependencies:
 
 ```bash
-yarn install
+npm install
 ```
 
 4. Run migrations:
 
 ```bash
-yarn migrate
+npm migrate
 ```
 
 5. Seed data:
 
 ```bash
-yarn seed
+npm seed
 ```
 
 6. Start development server:
 
 ```bash
-yarn dev
+npm dev
 ```

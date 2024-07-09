@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node ./dist/main.js",
-    "tsc": "tsc",
+    "build": "tsc",
     "dev": "nodemon src/main.ts",
     "test": "jest --detectOpenHandles",
     "migrate": "cd src/db && knex migrate:latest",
@@ -47,6 +47,5 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
-  },
-  "packageManager": "yarn@4.3.1"
+  }
 }

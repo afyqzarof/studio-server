@@ -107,6 +107,8 @@ const newBoard = async (req: Request, res: Response) => {
       id: nanoid(15),
       user_id: userId,
       thumbnail: "default.png",
+      created_at: String(Date.now()),
+      updated_at: String(Date.now()),
     };
 
     await knex("board").insert(newBoard);
@@ -133,10 +135,11 @@ const saveBoard = async (req: Request, res: Response) => {
   }
 
   try {
-    const boardsUpdated = await knex("board")
+    const boardsUpdated = await knex<Board>("board")
       .where({ id: boardId })
       .update("title", title)
-      .update("thumbnail", filename);
+      .update("thumbnail", filename)
+      .update("updated_at", String(Date.now()));
 
     if (!boardsUpdated) {
       return res.status(404).send("Could not find board to update");
@@ -183,7 +186,7 @@ const deleteBoard = async (req: Request, res: Response) => {
   const { boardId } = req.params;
   const board = await knex("board").where({ id: boardId }).first();
   if (!board) {
-    res.status(404).send("cant find board");
+    return res.status(404).send("cant find board");
   }
   const thumbnail = board.thumbnail;
   if (thumbnail !== "default.png") {
@@ -208,7 +211,7 @@ const deleteBoard = async (req: Request, res: Response) => {
     }
   });
 
-  const deleteBoard = await knex("board").where({ id: boardId }).first().del();
+  await knex("board").where({ id: boardId }).first().del();
 
   res.status(204).send("delete successful");
 };

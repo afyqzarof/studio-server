@@ -14,7 +14,7 @@ export default {
   development: {
     client: "sqlite3",
     connection: {
-      filename: path.join(__dirname, "/database/dev.sqlite3"),
+      filename: path.join(__dirname, "../../database/dev.sqlite3"),
     },
     migrations: {
       directory: path.join(__dirname, "/migrations"),
@@ -27,7 +27,7 @@ export default {
   test: {
     client: "sqlite3",
     connection: {
-      filename: path.join(__dirname, "/database/test.sqlite3"),
+      filename: path.join(__dirname, "../../database/test.sqlite3"),
     },
     migrations: {
       directory: path.join(__dirname, "/migrations"),
@@ -40,7 +40,7 @@ export default {
   production: {
     client: "sqlite3",
     connection: {
-      filename: path.join(__dirname, "/database/production.sqlite3"),
+      filename: path.join(__dirname, "../../database/production.sqlite3"),
     },
     migrations: {
       directory: path.join(__dirname, "/migrations"),

@@ -190,7 +190,10 @@ const savePins = async (req: Request, res: Response) => {
   }
 };
 
-const deleteBoard = async (req: Request, res: Response) => {
+const deleteBoard = async (
+  req: Request<{ boardId: string }>,
+  res: Response
+) => {
   const { boardId } = req.params;
   try {
     const board = await knex("board").where({ id: boardId }).first();
@@ -227,6 +230,30 @@ const deleteBoard = async (req: Request, res: Response) => {
     res.status(500).send(error);
   }
 };
+
+const publishBoard = async (
+  req: Request<{ boardId: string }>,
+  res: Response
+) => {
+  const { boardId } = req.params;
+  try {
+    const boardUpdated = await knex<Board>("board")
+      .where({ id: boardId })
+      .first()
+      .update({
+        is_public: knex.raw("NOT ??", ["is_public"]),
+      })
+      .returning("is_public");
+
+    if (!boardUpdated) {
+      return res.status(404).send("cant find board");
+    }
+
+    res.send(boardUpdated);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 const boardController = {
   getPins,
   getBoardDetails,
@@ -235,6 +262,7 @@ const boardController = {
   saveBoard,
   savePins,
   deleteBoard,
+  publishBoard,
 };
 
 export default boardController;

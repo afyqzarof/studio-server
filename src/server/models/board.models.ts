@@ -40,6 +40,8 @@ const getPublicBoards = async () => {
       .where({ is_public: true });
     return publicBoards;
   } catch (error) {
+    console.log(error);
+
     throw error;
   }
 };

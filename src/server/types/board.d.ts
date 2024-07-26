@@ -5,6 +5,7 @@ export type Board = {
   title?: string;
   is_public?: boolean;
   created_at?: string;
+  updated_at?: string;
   description?: string;
   category?: string;
 };

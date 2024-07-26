@@ -6,18 +6,22 @@ import path from "path";
 import { Request, Response } from "express";
 import getImageIds from "../utils/get-image-pin";
 import { Board } from "../types/board";
+import boardModel from "../models/board.models";
 
-const getPins = async (req: Request, res: Response) => {
+const getPins = async (req: Request<{ boardId: string }>, res: Response) => {
   const { boardId } = req.params;
   try {
-    const pins = await knex("pin").where({ board_id: boardId });
+    const pins = await boardModel.getPins(boardId);
     res.json(pins);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-const getBoardDetails = async (req: Request, res: Response) => {
+const getBoardDetails = async (
+  req: Request<{ boardId: string }>,
+  res: Response
+) => {
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
   try {
@@ -27,7 +31,7 @@ const getBoardDetails = async (req: Request, res: Response) => {
     ) as JwtPayload;
 
     const { boardId } = req.params;
-    const boardDetails = await knex("board").where({ id: boardId }).first();
+    const boardDetails = await boardModel.getOneBoard(boardId);
 
     if (!boardDetails) {
       return res.status(404).send("No board found");
@@ -45,40 +49,17 @@ const getBoardDetails = async (req: Request, res: Response) => {
 const getPublicBoards = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const authToken = authHeader.split(" ")[1];
-  if (authToken === "demo") {
-    const publicBoards = await knex("board")
-      .join("user", "user.id", "board.user_id")
-      .select(
-        "user.username",
-        "board.title",
-        "board.thumbnail",
-        "board.id",
-        "board.created_at",
-        "board.description",
-        "board.category",
-        "board.user_id"
-      );
-    return res.json(publicBoards);
-  }
 
   try {
     const decoded: JwtPayload = jwt.verify(
       authToken,
       process.env.JWT_SECRET
     ) as JwtPayload;
-    const publicBoards = await knex("board")
-      .join("user", "user.id", "board.user_id")
-      .select(
-        "user.username",
-        "board.title",
-        "board.thumbnail",
-        "board.id",
-        "board.created_at",
-        "board.description",
-        "board.category",
-        "board.user_id"
-      )
-      .where({ is_public: true });
+    const publicBoards = await boardModel.getPublicBoards();
+
+    if (authToken === "demo") {
+      return res.json(publicBoards);
+    }
 
     const filteredBoards = publicBoards.filter(
       (board) => board.user_id !== decoded.id
@@ -109,6 +90,7 @@ const newBoard = async (req: Request, res: Response) => {
       thumbnail: "default.png",
       created_at: String(Date.now()),
       updated_at: String(Date.now()),
+      is_public: false,
     };
 
     await knex("board").insert(newBoard);
@@ -123,7 +105,7 @@ const saveBoard = async (req: Request, res: Response) => {
   if (!title || !boardId || !filename) {
     return res.status(400).send("Please have all fields");
   }
-  const { thumbnail } = await knex("board").where({ id: boardId }).first();
+  const { thumbnail } = await boardModel.getOneBoard(boardId);
   if (thumbnail !== "default.png") {
     try {
       fs.unlinkSync(
@@ -145,7 +127,7 @@ const saveBoard = async (req: Request, res: Response) => {
       return res.status(404).send("Could not find board to update");
     }
 
-    const updatedBoard = await knex("board").where({ id: boardId }).first();
+    const updatedBoard = await boardModel.getOneBoard(boardId);
     res.json(updatedBoard);
   } catch (error) {
     res.status(500).send(error);
@@ -159,12 +141,60 @@ const savePins = async (req: Request, res: Response) => {
     return res.send("no pins to update");
   }
 
-  const oldPins = await knex("pin").where({ board_id: boardId });
-  const oldImgPinIds = getImageIds(oldPins, true);
-  const newImgPinsId = getImageIds(newPins, false).map((imgObj) => imgObj.id);
+  try {
+    const oldPins = await knex("pin").where({ board_id: boardId });
+    const oldImgPinIds = getImageIds(oldPins, true);
+    const newImgPinsId = getImageIds(newPins, false).map((imgObj) => imgObj.id);
 
-  oldImgPinIds.forEach((imgObj) => {
-    if (!newImgPinsId.includes(imgObj.id)) {
+    oldImgPinIds.forEach((imgObj) => {
+      if (!newImgPinsId.includes(imgObj.id)) {
+        try {
+          fs.unlinkSync(
+            path.resolve(
+              __dirname,
+              `../../../public/uploads/${imgObj.filename}`
+            )
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+
+    await knex("pin").where({ board_id: boardId }).del();
+
+    const insertedPins = await knex("pin").insert(newPins);
+
+    res.json(insertedPins);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const deleteBoard = async (
+  req: Request<{ boardId: string }>,
+  res: Response
+) => {
+  const { boardId } = req.params;
+  try {
+    const board = await knex("board").where({ id: boardId }).first();
+    if (!board) {
+      return res.status(404).send("cant find board");
+    }
+    const thumbnail = board.thumbnail;
+    if (thumbnail !== "default.png") {
+      try {
+        fs.unlinkSync(
+          path.resolve(__dirname, `../../../public/thumbnails/${thumbnail}`)
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const oldPins = await knex("pin").where({ board_id: boardId });
+    const oldImgPinIds = getImageIds(oldPins, true);
+    oldImgPinIds.forEach((imgObj) => {
       try {
         fs.unlinkSync(
           path.resolve(__dirname, `../../../public/uploads/${imgObj.filename}`)
@@ -172,48 +202,38 @@ const savePins = async (req: Request, res: Response) => {
       } catch (error) {
         console.log(error);
       }
-    }
-  });
+    });
 
-  await knex("pin").where({ board_id: boardId }).del();
+    await knex("board").where({ id: boardId }).first().del();
 
-  const insertedPins = await knex("pin").insert(newPins);
-
-  res.json(insertedPins);
+    res.status(204).send("delete successful");
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
-const deleteBoard = async (req: Request, res: Response) => {
+const publishBoard = async (
+  req: Request<{ boardId: string }>,
+  res: Response
+) => {
   const { boardId } = req.params;
-  const board = await knex("board").where({ id: boardId }).first();
-  if (!board) {
-    return res.status(404).send("cant find board");
-  }
-  const thumbnail = board.thumbnail;
-  if (thumbnail !== "default.png") {
-    try {
-      fs.unlinkSync(
-        path.resolve(__dirname, `../../../public/thumbnails/${thumbnail}`)
-      );
-    } catch (error) {
-      console.log(error);
+  try {
+    const boardUpdated = await knex<Board>("board")
+      .where({ id: boardId })
+      .first()
+      .update({
+        is_public: knex.raw("NOT ??", ["is_public"]),
+      })
+      .returning("is_public");
+
+    if (!boardUpdated) {
+      return res.status(404).send("cant find board");
     }
+
+    res.send(boardUpdated);
+  } catch (error) {
+    res.status(500).send(error);
   }
-
-  const oldPins = await knex("pin").where({ board_id: boardId });
-  const oldImgPinIds = getImageIds(oldPins, true);
-  oldImgPinIds.forEach((imgObj) => {
-    try {
-      fs.unlinkSync(
-        path.resolve(__dirname, `../../../public/uploads/${imgObj.filename}`)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  await knex("board").where({ id: boardId }).first().del();
-
-  res.status(204).send("delete successful");
 };
 const boardController = {
   getPins,
@@ -223,6 +243,7 @@ const boardController = {
   saveBoard,
   savePins,
   deleteBoard,
+  publishBoard,
 };
 
 export default boardController;
